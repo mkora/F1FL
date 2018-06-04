@@ -18,8 +18,10 @@
     "dotenv": "^5.0.1",
     "errorhandler": "^1.5.0",
     "express": "^4.16.3",
-    "mongoose": "^5.0.11",
     "morgan": "^1.9.0",
+    "mysql2": "^1.5.3",
+    "npm": "^6.1.0",
+    "sequelize": "^4.37.10",
     "winston": "^3.0.0-rc3"
   },
   "devDependencies": {

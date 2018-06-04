@@ -1,19 +1,20 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
+const Sequelize = require('sequelize');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const errorHandler = require('errorhandler');
 const morgan = require('morgan');
-const logger = require('./utils/logger');
 
 /**
  * Load environment variables from .env file
  * where API keys and passwords are configured
  */
 dotenv.load({
-  path: '.env.example',
+  path: '.env',
 });
+
+const logger = require('./utils/logger');
 
 /**
  * Controllers (route handlers)
@@ -43,15 +44,28 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 /**
- * Connect to MongoDB.
+ * Connect to MySQL
  */
-mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGODB_URI || process.env.MONGOLAB_URI);
-mongoose.connection.on('error', (err) => {
-  logger.error('MongoDB connection error. Please make sure MongoDB is running');
-  logger.debug(err);
-  process.exit();
-});
+const sequelize = new Sequelize(
+  process.env.DB_NAME,
+  process.env.DB_USERNAME,
+  process.env.DB_PASSWORD,
+  {
+    host: process.env.DB_HOSTNAME,
+    dialect: 'mysql',
+    logging: false,
+    freezeTableName: true,
+    operatorsAliases: false,
+  },
+);
+sequelize
+  .authenticate()
+  .then(() => {
+    logger.debug('Connection has been established successfully.');
+  })
+  .catch((err) => {
+    logger.error('Unable to connect to the database:', err);
+  });
 
 /**
  * Test app
