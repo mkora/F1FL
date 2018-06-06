@@ -1,6 +1,5 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const Sequelize = require('sequelize');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const errorHandler = require('errorhandler');
@@ -15,6 +14,8 @@ dotenv.load({
 });
 
 const logger = require('./utils/logger');
+
+const db = require('./models/index');
 
 /**
  * Controllers (route handlers)
@@ -42,30 +43,6 @@ app.use(morgan('dev'));
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('src/build'));
 }
-
-/**
- * Connect to MySQL
- */
-const sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USERNAME,
-  process.env.DB_PASSWORD,
-  {
-    host: process.env.DB_HOSTNAME,
-    dialect: 'mysql',
-    logging: false,
-    freezeTableName: true,
-    operatorsAliases: false,
-  },
-);
-sequelize
-  .authenticate()
-  .then(() => {
-    logger.debug('Connection has been established successfully.');
-  })
-  .catch((err) => {
-    logger.error('Unable to connect to the database:', err);
-  });
 
 /**
  * Test app
