@@ -7,7 +7,9 @@
     "start": "node ./server.js",
     "devstart": "nodemon ./server.js",
     "lint": "node_modules/eslint/bin/eslint.js .",
-    "test": "mocha --timeout 10000"
+    "test": "mocha --timeout 10000",
+    "sqlze": "node_modules/sequelize-cli/lib/sequelize",
+    "sqlze-gen": "node_modules/sequelize-auto/bin/sequelize-auto -o './models'"
   },
   "author": "mkora",
   "license": "MIT",
