@@ -1,92 +1,89 @@
-/* jshint indent: 2 */
-
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('results', {
+module.exports = (sequelize, DataTypes) =>
+  sequelize.define('results', {
     resultId: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
       primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
     },
     raceId: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
-      defaultValue: '0'
+      defaultValue: '0',
     },
     driverId: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
-      defaultValue: '0'
+      defaultValue: '0',
     },
     constructorId: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
-      defaultValue: '0'
+      defaultValue: '0',
     },
     number: {
       type: DataTypes.INTEGER(11),
-      allowNull: true
+      allowNull: true,
     },
     grid: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
-      defaultValue: '0'
+      defaultValue: '0',
     },
     position: {
       type: DataTypes.INTEGER(11),
-      allowNull: true
+      allowNull: true,
     },
     positionText: {
       type: DataTypes.STRING(255),
       allowNull: false,
-      defaultValue: ''
+      defaultValue: '',
     },
     positionOrder: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
-      defaultValue: '0'
+      defaultValue: '0',
     },
     points: {
       type: DataTypes.FLOAT,
       allowNull: false,
-      defaultValue: '0'
+      defaultValue: '0',
     },
     laps: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
-      defaultValue: '0'
+      defaultValue: '0',
     },
     time: {
       type: DataTypes.STRING(255),
-      allowNull: true
+      allowNull: true,
     },
     milliseconds: {
       type: DataTypes.INTEGER(11),
-      allowNull: true
+      allowNull: true,
     },
     fastestLap: {
       type: DataTypes.INTEGER(11),
-      allowNull: true
+      allowNull: true,
     },
     rank: {
       type: DataTypes.INTEGER(11),
       allowNull: true,
-      defaultValue: '0'
+      defaultValue: '0',
     },
     fastestLapTime: {
       type: DataTypes.STRING(255),
-      allowNull: true
+      allowNull: true,
     },
     fastestLapSpeed: {
       type: DataTypes.STRING(255),
-      allowNull: true
+      allowNull: true,
     },
     statusId: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
-      defaultValue: '0'
-    }
+      defaultValue: '0',
+    },
   }, {
-    tableName: 'results'
+    tableName: 'results',
   });
-};

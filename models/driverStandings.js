@@ -1,42 +1,39 @@
-/* jshint indent: 2 */
-
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('driverStandings', {
+module.exports = (sequelize, DataTypes) =>
+  sequelize.define('driverStandings', {
     driverStandingsId: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
       primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
     },
     raceId: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
-      defaultValue: '0'
+      defaultValue: '0',
     },
     driverId: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
-      defaultValue: '0'
+      defaultValue: '0',
     },
     points: {
       type: DataTypes.FLOAT,
       allowNull: false,
-      defaultValue: '0'
+      defaultValue: '0',
     },
     position: {
       type: DataTypes.INTEGER(11),
-      allowNull: true
+      allowNull: true,
     },
     positionText: {
       type: DataTypes.STRING(255),
-      allowNull: true
+      allowNull: true,
     },
     wins: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
-      defaultValue: '0'
-    }
+      defaultValue: '0',
+    },
   }, {
-    tableName: 'driverStandings'
+    tableName: 'driverStandings',
   });
-};

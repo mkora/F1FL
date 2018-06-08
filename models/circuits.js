@@ -1,50 +1,47 @@
-/* jshint indent: 2 */
-
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('circuits', {
+module.exports = (sequelize, DataTypes) =>
+  sequelize.define('circuits', {
     circuitId: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
       primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
     },
     circuitRef: {
       type: DataTypes.STRING(255),
       allowNull: false,
-      defaultValue: ''
+      defaultValue: '',
     },
     name: {
       type: DataTypes.STRING(255),
       allowNull: false,
-      defaultValue: ''
+      defaultValue: '',
     },
     location: {
       type: DataTypes.STRING(255),
-      allowNull: true
+      allowNull: true,
     },
     country: {
       type: DataTypes.STRING(255),
-      allowNull: true
+      allowNull: true,
     },
     lat: {
       type: DataTypes.FLOAT,
-      allowNull: true
+      allowNull: true,
     },
     lng: {
       type: DataTypes.FLOAT,
-      allowNull: true
+      allowNull: true,
     },
     alt: {
       type: DataTypes.INTEGER(11),
-      allowNull: true
+      allowNull: true,
     },
     url: {
       type: DataTypes.STRING(255),
       allowNull: false,
       defaultValue: '',
-      unique: true
-    }
+      unique: true,
+    },
   }, {
-    tableName: 'circuits'
+    tableName: 'circuits',
   });
-};

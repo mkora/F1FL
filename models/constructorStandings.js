@@ -1,42 +1,39 @@
-/* jshint indent: 2 */
-
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('constructorStandings', {
+module.exports = (sequelize, DataTypes) =>
+  sequelize.define('constructorStandings', {
     constructorStandingsId: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
       primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
     },
     raceId: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
-      defaultValue: '0'
+      defaultValue: '0',
     },
     constructorId: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
-      defaultValue: '0'
+      defaultValue: '0',
     },
     points: {
       type: DataTypes.FLOAT,
       allowNull: false,
-      defaultValue: '0'
+      defaultValue: '0',
     },
     position: {
       type: DataTypes.INTEGER(11),
-      allowNull: true
+      allowNull: true,
     },
     positionText: {
       type: DataTypes.STRING(255),
-      allowNull: true
+      allowNull: true,
     },
     wins: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
-      defaultValue: '0'
-    }
+      defaultValue: '0',
+    },
   }, {
-    tableName: 'constructorStandings'
+    tableName: 'constructorStandings',
   });
-};

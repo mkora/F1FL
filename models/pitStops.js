@@ -1,39 +1,36 @@
-/* jshint indent: 2 */
-
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('pitStops', {
+module.exports = (sequelize, DataTypes) =>
+  sequelize.define('pitStops', {
     raceId: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
     },
     driverId: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
     },
     stop: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
     },
     lap: {
       type: DataTypes.INTEGER(11),
-      allowNull: false
+      allowNull: false,
     },
     time: {
       type: DataTypes.TIME,
-      allowNull: false
+      allowNull: false,
     },
     duration: {
       type: DataTypes.STRING(255),
-      allowNull: true
+      allowNull: true,
     },
     milliseconds: {
       type: DataTypes.INTEGER(11),
-      allowNull: true
-    }
+      allowNull: true,
+    },
   }, {
-    tableName: 'pitStops'
+    tableName: 'pitStops',
   });
-};
