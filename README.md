@@ -10,7 +10,7 @@ Formula 1 Fastest Lap Visualization Tool
 
 - F1 data provided by [Ergast F1](http://ergast.com/mrd/)
 
-- Provides `mongodb` support
+- Provides [Sequelize](https://github.com/sequelize/sequelize), [Sequelize-CLI](https://github.com/sequelize/cli) and [Sequelize-Auto](https://github.com/sequelize/sequelize-auto) support
 
 - Uses `morgan` as a HTTP request logger and `winston` as a logger for everything else
 
@@ -37,7 +37,7 @@ Formula 1 Fastest Lap Visualization Tool
   - Boot from the top-level directory
 
   ```
-  PORT=3030 LOG_LEVEL=debug npm start
+  LOG_LEVEL=debug npm start
   ```
 
   - Dev server (uses nodemon):
@@ -48,10 +48,15 @@ Formula 1 Fastest Lap Visualization Tool
 
   - Browse at http://localhost:3030
 
-3. Run tests
+3. Run scripts
 
   ```
+  # Run tests
   npm test
+  # Alias for sequelize-cli
+  npm run sqlze [command]
+  # Auto generate models for Sequelize via the command line
+  npm run sqlze-gen -- -d [dbname] -h [localhost] -u [username] -p [port] -x [password] -e mysql
   ```
 
 ## API Endpoints
