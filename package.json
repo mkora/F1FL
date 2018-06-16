@@ -4,7 +4,9 @@
   "description": "Formula 1 Fastest Lap Visualization Tool",
   "main": "app.js",
   "scripts": {
-    "start": "node ./server.js",
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "client": "node ./client.js",
+    "server": "node ./server.js",
     "devstart": "nodemon ./server.js",
     "lint": "node_modules/eslint/bin/eslint.js .",
     "test": "mocha --timeout 10000",
@@ -15,6 +17,7 @@
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "concurrently": "^3.5.1",
     "cors": "^2.8.4",
     "debug": "^3.1.0",
     "dotenv": "^5.0.1",
