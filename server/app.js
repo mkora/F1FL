@@ -15,8 +15,6 @@ dotenv.load({
 
 const logger = require('./utils/logger');
 
-const db = require('./models/index');
-
 /**
  * Controllers (route handlers)
  */

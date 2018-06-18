@@ -3,7 +3,6 @@ const path = require('path');
 const logger = require('../utils/logger');
 const Sequelize = require('sequelize');
 
-const basename = path.basename(__filename);
 const db = {};
 
 const sequelize = new Sequelize(
@@ -28,6 +27,7 @@ sequelize
     logger.error('Unable to connect to the database:', err);
   });
 
+const basename = path.basename(__filename);
 fs
   .readdirSync(__dirname)
   .filter(file =>
@@ -36,7 +36,8 @@ fs
     && (file.slice(-3) === '.js'))
   .forEach((file) => {
     const model = sequelize.import(path.join(__dirname, file));
-    db[model.name] = model;
+    const name = model.name.replace(/^\w/, c => c.toUpperCase());
+    db[name] = model;
   });
 
 Object.keys(db).forEach((modelName) => {
