@@ -1,34 +1,17 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const dotenv = require('dotenv');
-const errorHandler = require('errorhandler');
-const morgan = require('morgan');
+import express from 'express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import errorHandler from 'errorhandler';
+import morgan from 'morgan';
+import dotenv from './enver'; // eslint-disable-line no-unused-vars
+import logger from './utils/logger';
 
 /**
- * Load environment variables from .env file
- * where API keys and passwords are configured
- */
-dotenv.load({
-  path: '.env',
-});
-
-const logger = require('./utils/logger');
-
-/**
- * Controllers (route handlers)
- */
-const indexController = require('./controllers/index');
-
-/**
- * Create Express server
+ * Express Middleware
  */
 const app = express();
-
-/**
- * Configure Express
- */
 app.set('port', process.env.PORT || 3030);
+
 app.use(bodyParser.urlencoded({
   extended: true,
 }));
@@ -42,23 +25,6 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static('src/build'));
 }
 
-/**
- * Test app
- */
-app.get('/pulse', (req, res) => {
-  logger.debug('It works!');
-  res.status(200);
-  // send json
-  return res.json({
-    ok: true,
-    data: 'It works!',
-  });
-});
-
-/**
- * API examples routes
- */
-app.get('/api/index', indexController.index);
 
 /**
  * Error Handler
@@ -69,7 +35,6 @@ app.use((req, res, next) => {
   next(err);
 });
 
-
 app.use(errorHandler({
   log: (err, str, req, res) => {
     logger.error(str, err, req);
@@ -77,4 +42,4 @@ app.use(errorHandler({
   },
 }));
 
-module.exports = app;
+export default app;

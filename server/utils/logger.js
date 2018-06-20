@@ -1,8 +1,8 @@
-const {
+import {
   createLogger,
   format,
   transports,
-} = require('winston');
+} from 'winston';
 
 const {
   splat,
@@ -21,4 +21,4 @@ const logger = createLogger({
   ],
 });
 
-module.exports = logger;
+export default logger;
