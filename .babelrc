@@ -3,9 +3,15 @@
     [
       "env",
       {
-        "targets": { "node": "current" },
+        "targets": {
+          "node": "current"
+        },
         "useBuiltIns": true
       }
-    ]
+    ],
+    "stage-3"
+  ],
+  "plugins": [
+    "transform-class-properties"
   ]
 }
