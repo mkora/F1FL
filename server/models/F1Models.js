@@ -11,24 +11,22 @@ import logger from '../utils/logger';
 const init = (sequelize) => {
   const basename = path.basename(__filename);
 
-  const models = fs
+  const models = {};
+  fs
     .readdirSync(__dirname)
     .filter(file =>
       (file.indexOf('.') !== 0)
       && (file !== basename)
       && (file.slice(-3) === '.js'))
-    .map((file) => {
+    .forEach((file) => {
       // eslint-disable-next-line
       const model = require(path.join(__dirname, file));
-      return {
-        [model.name]: model.init(sequelize, Sequelize),
-      };
+      models[model.name] = model.init(sequelize, Sequelize);
     });
 
   Object.values(models)
     .filter(model => typeof model.associate === 'function')
     .forEach(model => model.associate(models));
-
   return models;
 };
 
@@ -45,6 +43,9 @@ const sequelize = new Sequelize(
     logging: false,
     freezeTableName: true,
     operatorsAliases: false,
+    define: {
+      timestamps: false,
+    },
   },
 );
 
@@ -57,9 +58,8 @@ try {
   logger.error('Unable to connect to the database:', err);
 }
 
-const models = init(sequelize);
-
-export default{
-  ...models,
+const db = {
+  ...init(sequelize),
   sequelize,
 };
+export default db;
