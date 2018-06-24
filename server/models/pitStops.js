@@ -45,7 +45,7 @@ class PitStops extends Sequelize.Model {
   }
 
   static associate(models) {
-    this.belongsTo(models.Races);
-    this.belongsTo(models.Drivers);
+    this.belongsTo(models.Races, { foreignKey: 'raceId' });
+    this.belongsTo(models.Drivers, { foreignKey: 'driverId' });
   }
 };

@@ -56,8 +56,8 @@ class Qualifying extends Sequelize.Model {
   }
 
   static associate(models) {
-    this.belongsTo(models.Races);
-    this.belongsTo(models.Drivers);
-    this.belongsTo(models.Constructors);
+    this.belongsTo(models.Races, { foreignKey: 'raceId' });
+    this.belongsTo(models.Drivers, { foreignKey: 'driverId' });
+    this.belongsTo(models.Constructors, { foreignKey: 'constructorId' });
   }
 };

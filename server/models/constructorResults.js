@@ -38,7 +38,7 @@ class ConstructorResults extends Sequelize.Model {
   }
 
   static associate(models) {
-    this.belongsTo(models.Races);
-    this.belongsTo(models.Constructors);
+    this.belongsTo(models.Races, { foreignKey: 'raceId' });
+    this.belongsTo(models.Constructors, { foreignKey: 'constructorId' });
   }
 };

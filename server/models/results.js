@@ -1,5 +1,4 @@
 const Sequelize = require('sequelize');
-const Races = require('./Races');
 
 module.exports =
 class Results extends Sequelize.Model {
@@ -99,9 +98,9 @@ class Results extends Sequelize.Model {
   }
 
   static associate(models) {
-    this.belongsTo(models.Races);
-    this.belongsTo(models.Drivers);
-    this.belongsTo(models.Constructors);
-    this.belongsTo(models.Status);
+    this.belongsTo(models.Races, { foreignKey: 'raceId' });
+    this.belongsTo(models.Drivers, { foreignKey: 'driverId' });
+    this.belongsTo(models.Constructors, { foreignKey: 'constructorId' });
+    this.belongsTo(models.Status, { foreignKey: 'statusId' });
   }
 };

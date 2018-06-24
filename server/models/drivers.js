@@ -57,10 +57,10 @@ class Drivers extends Sequelize.Model {
   }
 
   static associate(models) {
-    this.hasMany(models.DriverStandings);
-    this.hasMany(models.LapTimes);
-    this.hasMany(models.PitStops);
-    this.hasMany(models.Qualifying);
-    this.hasMany(models.Results);
+    this.hasMany(models.DriverStandings, { foreignKey: 'driverId' });
+    this.hasMany(models.LapTimes, { foreignKey: 'driverId' });
+    this.hasMany(models.PitStops, { foreignKey: 'driverId' });
+    this.hasMany(models.Qualifying, { foreignKey: 'driverId' });
+    this.hasMany(models.Results, { foreignKey: 'driverId' });
   }
 };

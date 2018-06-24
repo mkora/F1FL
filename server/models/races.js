@@ -54,13 +54,13 @@ class Races extends Sequelize.Model {
   }
 
   static associate(models) {
-    this.belongsTo(models.Circuits);
-    this.hasMany(models.ConstructorResults);
-    this.hasMany(models.ConstructorStandings);
-    this.hasMany(models.DriverStandings);
-    this.hasMany(models.LapTimes);
-    this.hasMany(models.PitStops);
-    this.hasMany(models.Qualifying);
-    this.hasMany(models.Results);
+    this.belongsTo(models.Circuits, { foreignKey: 'circuitId' });
+    this.hasMany(models.ConstructorResults, { foreignKey: 'raceId' });
+    this.hasMany(models.ConstructorStandings, { foreignKey: 'raceId' });
+    this.hasMany(models.DriverStandings, { foreignKey: 'raceId' });
+    this.hasMany(models.LapTimes, { foreignKey: 'raceId' });
+    this.hasMany(models.PitStops, { foreignKey: 'raceId' });
+    this.hasMany(models.Qualifying, { foreignKey: 'raceId' });
+    this.hasMany(models.Results, { foreignKey: 'raceId' });
   }
 };

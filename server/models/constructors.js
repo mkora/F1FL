@@ -40,9 +40,9 @@ class Constructors extends Sequelize.Model {
   }
 
   static associate(models) {
-    this.hasMany(models.ConstructorResults);
-    this.hasMany(models.ConstructorStandings);
-    this.hasMany(models.Qualifying);
-    this.hasMany(models.Results);
+    this.hasMany(models.ConstructorResults, { foreignKey: 'constructorId' });
+    this.hasMany(models.ConstructorStandings, { foreignKey: 'constructorId' });
+    this.hasMany(models.Qualifying, { foreignKey: 'constructorId' });
+    this.hasMany(models.Results, { foreignKey: 'constructorId' });
   }
 };
