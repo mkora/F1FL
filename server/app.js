@@ -6,6 +6,8 @@ import morgan from 'morgan';
 import dotenv from './enver'; // eslint-disable-line no-unused-vars
 import logger from './utils/logger';
 
+import F1Controller from './controllers/F1Controller';
+
 /**
  * Express Middleware
  */
@@ -25,6 +27,10 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static('src/build'));
 }
 
+/**
+ * API routes
+ */
+app.get('/api/index/id/:circuitId', F1Controller.index);
 
 /**
  * Error Handler

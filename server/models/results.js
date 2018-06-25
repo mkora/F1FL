@@ -103,4 +103,32 @@ class Results extends Sequelize.Model {
     this.belongsTo(models.Constructors, { foreignKey: 'constructorId' });
     this.belongsTo(models.Status, { foreignKey: 'statusId' });
   }
+
+  static getFastestsLaps(models, circuitId) {
+    return this.findAll({
+      attributes: [
+        Sequelize.col('Race.year'),
+        Sequelize.col('Race.circuitId'),
+        [Sequelize.fn('MIN', Sequelize.col('fastestLapTime')), 'fastestLapTime'],
+      ],
+      include: [{
+        attributes: [],
+        model: models.Races,
+        where: {
+          circuitId: {
+            [Sequelize.Op.in]: [circuitId],
+          },
+        },
+      }],
+      group: [Sequelize.col('Race.year'), Sequelize.col('Race.circuitId')],
+      having: {
+        fastestLapTime: {
+          [Sequelize.Op.ne]: null,
+        },
+      },
+      order: [[Sequelize.col('Race.year'), 'ASC']],
+      logging: ((process.env.LOG_LEVEL === 'debug')
+        ? console.log : false),
+    });
+  }
 };
