@@ -107,8 +107,8 @@ class Results extends Sequelize.Model {
   static getFastestsLaps(models, circuitId) {
     return this.findAll({
       attributes: [
-        Sequelize.col('Race.year'),
-        Sequelize.col('Race.circuitId'),
+        [Sequelize.col('Race.year'), 'year'],
+        [Sequelize.col('Race.circuitId'), 'circuitId'],
         [Sequelize.fn('MIN', Sequelize.col('fastestLapTime')), 'fastestLapTime'],
       ],
       include: [{
