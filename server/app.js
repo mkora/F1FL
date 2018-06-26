@@ -30,7 +30,7 @@ if (process.env.NODE_ENV === 'production') {
 /**
  * API routes
  */
-app.get('/api/index/id/:circuitId', F1Controller.index);
+app.get('/api/laps/id/:circuitId', F1Controller.laps);
 
 /**
  * Error Handler
