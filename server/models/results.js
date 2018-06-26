@@ -104,7 +104,7 @@ class Results extends Sequelize.Model {
     this.belongsTo(models.Status, { foreignKey: 'statusId' });
   }
 
-  static getFastestsLaps(models, circuitId) {
+  static getFastestsLaps(models, circuitIds) {
     return this.findAll({
       attributes: [
         [Sequelize.col('Race.year'), 'year'],
@@ -116,7 +116,7 @@ class Results extends Sequelize.Model {
         model: models.Races,
         where: {
           circuitId: {
-            [Sequelize.Op.in]: [circuitId],
+            [Sequelize.Op.in]: circuitIds,
           },
         },
       }],

@@ -4,16 +4,29 @@ import db from '../models/F1Models';
 class F1Controller {
   static async laps(req, res) {
     logger.debug('Controller F1, function laps called');
-    const { circuitId } = req.params;
+    const circuitIds = req.query.id
+      .split(',')
+      .map(v => parseInt(v, 10));
+
     try {
       const results = await db.Results
-        .getFastestsLaps(db, circuitId);
+        .getFastestsLaps(db, circuitIds);
       const data = {};
       Object.values(results).forEach((v) => {
-        data[v.dataValues.year] = {
-          year: v.dataValues.year,
-          fastestLapTime: v.dataValues.fastestLapTime,
-        };
+        const { dataValues } = v;
+        const {
+          circuitId,
+          year,
+          fastestLapTime,
+        } = dataValues;
+        if (data[circuitId] === undefined) {
+          data[circuitId] = [];
+        }
+        data[circuitId].push({
+          year,
+          fastestLapTime,
+          circuitId,
+        });
       });
       logger.debug(data);
       return res.json({
