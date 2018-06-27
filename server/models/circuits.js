@@ -54,4 +54,8 @@ class Circuits extends Sequelize.Model {
       },
     );
   }
+
+  getFullName() {
+    return `${this.name}, ${this.location}, ${this.country}`;
+  }
 };
