@@ -13,12 +13,9 @@ class F1Controller {
         .getFastestsLaps(db, circuitIds);
       const data = {};
       Object.values(results).forEach((v) => {
-        const { dataValues } = v;
-        const {
-          circuitId,
-          year,
-          fastestLapTime,
-        } = dataValues;
+        const { fastestLapTime } = v;
+        const year = v.get('year');
+        const circuitId = v.get('circuitId');
         if (data[circuitId] === undefined) {
           data[circuitId] = [];
         }
@@ -65,7 +62,7 @@ class F1Controller {
         error,
       });
     }
-  }  
+  }
 }
 
 export default F1Controller;
