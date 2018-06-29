@@ -1,7 +1,8 @@
 import dotenv from 'dotenv';
 
 dotenv.load({
-  path: '.env',
+  path: (process.env.NODE_ENV === 'test')
+    ? '.env.test' : '.env',
 });
 
 export default dotenv;

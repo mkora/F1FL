@@ -10,7 +10,7 @@
     "server": "npm run -s build && node dist/index.js",
     "devstart": "nodemon -w server --exec \"babel-node server\"",
     "lint": "node_modules/eslint/bin/eslint.js .",
-    "test": "mocha --require babel-polyfill --compilers js:babel-register --timeout 10000",
+    "test": "NODE_ENV=test mocha --require babel-polyfill --require babel-core/register --timeout 10000 ./server/test/*",
     "sqlze": "node_modules/sequelize-cli/lib/sequelize",
     "sqlze-gen": "node_modules/sequelize-auto/bin/sequelize-auto -o './models'"
   },
@@ -19,6 +19,8 @@
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "body-parser": "^1.18.2",
+    "chai": "^4.1.2",
+    "chai-http": "^4.0.0",
     "concurrently": "^3.5.1",
     "cors": "^2.8.4",
     "debug": "^3.1.0",
@@ -39,8 +41,6 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-stage-3": "^6.24.1",
     "babel-register": "^6.26.0",
-    "chai": "^4.1.2",
-    "chai-http": "^3.0.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.9.0",
