@@ -1,31 +1,46 @@
-const chai = require('chai');
-const chaiHttp = require('chai-http');
-const { expect } = require('chai');
+import chai from 'chai';
+import chaiHttp from 'chai-http';
+import server from '../app';
 
-const server = require('../app');
+const { expect } = chai;
 
 chai.use(chaiHttp);
 
-describe('Testing API', () => {
+describe('F1 fastest lap endpoints', () => {
   describe('GET /notfound', () => {
     it('it should return 404 ERROR', (done) => {
       chai.request(server)
         .get('/')
         .end((err, res) => {
-          expect(err).not.to.be.null;
           expect(res).to.have.status(404);
           done();
         });
     });
   });
 
-  describe('GET /pulse', () => {
-    it('it should return 200 OK', (done) => {
+  describe('GET /api/circuits', () => {
+    it('it should list of curcuits', (done) => {
       chai.request(server)
-        .get('/pulse')
+        .get('/api/circuits')
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(200);
+          expect(res).to.be.json;
+          expect(res.body).to.have.property('data');
+          done();
+        });
+    });
+  });
+
+  describe('GET /api/laps?id=1,2,3', () => {
+    it('it should fastest laps by years', (done) => {
+      chai.request(server)
+        .get('/api/laps?id=1,2,3')
+        .end((err, res) => {
+          expect(err).to.be.null;
+          expect(res).to.have.status(200);
+          expect(res).to.be.json;
+          expect(res.body).to.have.property('data');
           done();
         });
     });
