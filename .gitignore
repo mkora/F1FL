@@ -9,7 +9,8 @@ dump
 bower_components
 
 # API keys and secrets
-.env
+.env*
+!.env.example
 
 # testing
 /coverage
