@@ -1,6 +1,6 @@
 # F1FL
 
-Node.js, Express, Mongo
+Node.js, Express, MySQL
 
 ## Overview
 
@@ -12,17 +12,13 @@ Formula 1 Fastest Lap Visualization Tool
 
 - Provides [Sequelize](https://github.com/sequelize/sequelize), [Sequelize-CLI](https://github.com/sequelize/cli) and [Sequelize-Auto](https://github.com/sequelize/sequelize-auto) support
 
+- Configured to transpile ES2015, ES2016, ES2017 stage-3 code
+
 - Uses `morgan` as a HTTP request logger and `winston` as a logger for everything else
 
 - Loads environment variables from `.env` file
 
 - Uses `error-handler`
-
-- Controllers should be added to `controllers` folder
-
-- Linter config extends airbnb's
-
-- Added `chai-http` to test api calls
 
 ## Quick Start
 
@@ -34,35 +30,59 @@ Formula 1 Fastest Lap Visualization Tool
 
 2. Run the server
 
-  - Boot from the top-level directory
+  - Run the server & the client
 
   ```
-  LOG_LEVEL=debug npm start
+  npm start
   ```
 
-  - Dev server (uses nodemon):
+  - Run the dev server (uses nodemon):
 
   ```
-  PORT=3030 LOG_LEVEL=debug npm run devstart
+  npm run devstart
   ```
 
-  - Browse at http://localhost:3030
+  - Run the create-react-app server
+
+  ```
+  npm run client
+  ```
+
+  - Run the api server
+
+  ```
+  npm run server
+  ```
+
+  - Browse at http://localhost:3000
+
+  - NOTE: to change default proxy value (http://localhost:3030) modify src/react/package.json
 
 3. Run scripts
 
   ```
+  # Run build
+  npm run build
   # Run tests
   npm test
   # Alias for sequelize-cli
   npm run sqlze [command]
-  # Auto generate models for Sequelize via the command line
+  # Autogenerate models for Sequelize via the command line
   npm run sqlze-gen -- -d [dbname] -h [localhost] -u [username] -p [port] -x [password] -e mysql
   ```
 
 ## API Endpoints
 
-  Note: Use GET method to retrieve data
+  NOTE: Use GET method to retrieve data
+
+  NOTE: Add `Accept: application/json` header
+
+  - Call `/api/curcuits` to retrieve all circuits info
   
-  - Call /pulse to see 'It works!'
+    For example, `/api/curcuits`
+
+  - Call `/api/laps` to retrieve fastest laps info by circuit
   
-    For example, `/pulse`
+    For example, `/api/laps?id=1,2,3`
+
+    NOTE: `id` can be an array of circuit ids
