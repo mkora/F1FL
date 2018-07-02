@@ -33,6 +33,7 @@ if (process.env.NODE_ENV === 'production') {
 app.get('/api/laps', F1Controller.laps);
 app.get('/api/circuits', F1Controller.circuits);
 
+app.get('/favicon.ico', (req, res) => res.status(204));
 /**
  * Error Handler
  */
