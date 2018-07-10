@@ -1,12 +1,18 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
   footer: {
-    paddingTop: theme.spacing.unit * 2,
+    padding: theme.spacing.unit * 2,
   },
+  link: {
+    color: theme.palette.secondary.main,
+    textDecoration: 'none',
+    '&:hover': {
+      textDecoration: 'underline',
+    },
+  },  
 });
 
 const Footer = ({
@@ -17,11 +23,12 @@ const Footer = ({
     align="right"
     className={classes.footer}
   >
-    Data provided by <Button
+    Data provided by <a
       target="_blank"
       rel="noopener noreferrer"
-      href="http://ergast.com/mrd/db/"
-    >Ergast</Button>
+      href="http://ergast.com/mrd/db/"className={classes.link}>
+      Ergast
+    </a>
   </Typography>
 );
 
