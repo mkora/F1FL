@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Footer from '../components/Footer';
+import CurcuitsList from './CurcuitsList';
 import withRoot from '../withRoot';
 import '../css/App.css';
 
@@ -13,11 +15,9 @@ const styles = theme => ({
     paddingTop: theme.spacing.unit * 2,
   },
   container: {
-    paddingTop: theme.spacing.unit * 2,
+    padding: theme.spacing.unit * 2,
   },  
   paper: {
-    padding: theme.spacing.unit * 2,
-    textAlign: 'center',
     color: theme.palette.text.secondary,
   },
 });
@@ -35,7 +35,9 @@ class App extends Component {
             <Paper className={classes.paper}>Graphs are here</Paper>
           </Grid>
           <Grid item xs={4}>
-            <Paper className={classes.paper}>List is here</Paper>
+            <Paper className={classes.paper}>          
+              <CurcuitsList />
+            </Paper>
           </Grid>        
         </Grid>
         <Footer />       
@@ -43,5 +45,9 @@ class App extends Component {
     );
   }
 }
+
+App.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 
 export default withRoot(withStyles(styles)(App));
