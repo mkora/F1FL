@@ -23,8 +23,21 @@ const styles = theme => ({
 });
 
 class App extends Component {
+
+  state = {
+    circuits: [
+      { id: 1, name: 'List 1' },
+      { id: 2, name: 'List 2' },
+      { id: 3, name: 'List 3' },
+      { id: 4, name: 'List 4' },
+      { id: 5, name: 'List 5' },
+    ],    
+  };
+
   render() {
     const { classes } = this.props;
+    const { circuits } = this.state;
+
     return (
       <div className={classes.root}>
         <Typography variant="display1" align="center">
@@ -36,7 +49,7 @@ class App extends Component {
           </Grid>
           <Grid item xs={4}>
             <Paper className={classes.paper}>          
-              <CurcuitsList />
+              <CurcuitsList data={circuits}/>
             </Paper>
           </Grid>        
         </Grid>

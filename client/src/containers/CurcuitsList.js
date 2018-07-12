@@ -5,87 +5,92 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
-import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 const styles = theme => ({
-  root: {
-    
-  },
+  root: {},
+  header: {
+
+  }
 });
 
 class CurcuitsList extends Component {
   state = {
     checked: [],
-    chooseAll: false,
+    isChoosedAll: false,
   };
 
   handleToggle = (value) => () => {
-    const { checked } = this.state;
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
+    this.setState((prevState) => {
+      const { checked } = prevState;
 
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
+      const currentIndex = checked.indexOf(value);
+      const newChecked = [...checked];
+      if (currentIndex === -1) {
+        newChecked.push(value);
+      } else {
+        newChecked.splice(currentIndex, 1);
+      }
 
-    this.setState({
-      checked: newChecked,
+      return {
+        checked: newChecked,
+        isChoosedAll: newChecked.length
+          === this.props.data.length,
+      };
     });
   };
 
-  handleChooseAll = (event) => {
-    const chooseAll = event.target.checked;
-    const { checked } = this.state;
-    const newChecked = [];
+  handleChooseAll = () => {
+    this.setState((prevState) => {
+      const { isChoosedAll } = prevState;
 
-    if (chooseAll) {
-      console.log(checked);
-      // fill out newChecked
-    }
-
-    this.setState({
-      chooseAll: chooseAll,
-      checked: newChecked,
-    })
+      return {
+        isChoosedAll: !isChoosedAll,
+        checked: !isChoosedAll
+          ? this.props.data.map((v) => v.id) : [],
+      };
+    });
   };
 
   render() {
-    const { classes } = this.props;
-    const data = [0, 1, 2, 3];
-    
-    const { checked, chooseAll } = this.state;
+    const { 
+      data,
+      classes,
+    } = this.props;
+    const {
+      checked,
+      isChoosedAll,
+    } = this.state;
 
     return (
       <div className={classes.root}>
-        <FormGroup row>
+        <div className={classes.header}>
           <FormControlLabel
             control={
               <Checkbox
-                checked={chooseAll}
-                onChange={this.handleChooseAll}
+                checked={isChoosedAll}
+                disableRipple
+                onClick={this.handleChooseAll}
               />
             }
             label="Choose All"
           />
-        </FormGroup>              
+        </div>              
         <List>
-            {data.map((value, key) => (
+            {data.map((d) => (
               <ListItem
-                key={`curcuit-${key}`}
+                key={d.id}
                 role={undefined}
                 button
-                onClick={this.handleToggle(value)}
+                onClick={this.handleToggle(d.id)}
                 className={classes.listItem}
               >
                 <Checkbox
-                  checked={checked.indexOf(value) !== -1}
+                  checked={checked.indexOf(d.id) !== -1}
                   tabIndex={-1}
                   disableRipple
                 />
-                <ListItemText primary={`Line item ${value + 1}`} />
+                <ListItemText primary={d.name} />
               </ListItem>
             ))}
           </List>        
@@ -96,6 +101,7 @@ class CurcuitsList extends Component {
 
 CurcuitsList.propTypes = {
   classes: PropTypes.object.isRequired,
+  data: PropTypes.array.isRequired,
 };
 
 export default withStyles(styles)(CurcuitsList);
