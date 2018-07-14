@@ -14,7 +14,7 @@ const styles = theme => ({
   }
 });
 
-class CurcuitsList extends Component {
+class CircuitsList extends Component {
   state = {
     checked: [],
     isChoosedAll: false,
@@ -79,14 +79,14 @@ class CurcuitsList extends Component {
         <List>
             {data.map((d) => (
               <ListItem
-                key={d.id}
+                key={d.circuitId}
                 role={undefined}
                 button
-                onClick={this.handleToggle(d.id)}
+                onClick={this.handleToggle(d.circuitId)}
                 className={classes.listItem}
               >
                 <Checkbox
-                  checked={checked.indexOf(d.id) !== -1}
+                  checked={checked.indexOf(d.circuitId) !== -1}
                   tabIndex={-1}
                   disableRipple
                 />
@@ -99,9 +99,9 @@ class CurcuitsList extends Component {
   }
 }
 
-CurcuitsList.propTypes = {
+CircuitsList.propTypes = {
   classes: PropTypes.object.isRequired,
   data: PropTypes.array.isRequired,
 };
 
-export default withStyles(styles)(CurcuitsList);
+export default withStyles(styles)(CircuitsList);

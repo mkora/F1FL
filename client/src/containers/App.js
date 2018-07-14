@@ -5,7 +5,8 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Footer from '../components/Footer';
-import CurcuitsList from './CurcuitsList';
+import CircuitsList from './CircuitsList';
+import { circuits } from '../api';
 import withRoot from '../withRoot';
 import '../css/App.css';
 
@@ -25,18 +26,42 @@ const styles = theme => ({
 class App extends Component {
 
   state = {
-    circuits: [
-      { id: 1, name: 'List 1' },
-      { id: 2, name: 'List 2' },
-      { id: 3, name: 'List 3' },
-      { id: 4, name: 'List 4' },
-      { id: 5, name: 'List 5' },
-    ],    
+    circuits: [],
+    error: false,
+    loading: true,   
   };
+
+  async componentDidMount() {
+    try {
+      const circuitsData = await circuits();
+      if(circuitsData.status) {
+        this.setState({ 
+          circuits: circuitsData.data,
+          loading: false,
+        });
+      } else {
+        this.setState({
+        error: true,
+        loading: false,
+      });        
+      }
+    } catch (err) {
+      this.setState({
+        error: true,
+        loading: false,
+      });
+    }
+  }
 
   render() {
     const { classes } = this.props;
-    const { circuits } = this.state;
+    const {
+      circuits,
+      error,
+      loading,
+    } = this.state;
+
+    const showCircuits = !error && circuits.length;
 
     return (
       <div className={classes.root}>
@@ -48,8 +73,9 @@ class App extends Component {
             <Paper className={classes.paper}>Graphs are here</Paper>
           </Grid>
           <Grid item xs={4}>
-            <Paper className={classes.paper}>          
-              <CurcuitsList data={circuits}/>
+            <Paper className={classes.paper}>
+              { showCircuits && <CircuitsList data={circuits}/> }
+              { !showCircuits && <div>ERROR</div>}
             </Paper>
           </Grid>        
         </Grid>
