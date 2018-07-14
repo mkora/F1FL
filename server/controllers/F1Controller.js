@@ -43,12 +43,12 @@ class F1Controller {
     logger.debug('Controller F1, function circuits called');
     try {
       const results = await db.Circuits.findAll();
-      const data = {};
+      const data = [];
       Object.values(results).forEach((v) => {
-        data[v.circuitId] = {
+        data.push({
           circuitId: v.circuitId,
           name: v.getFullName(),
-        };
+        });
       });
       logger.debug(data);
       return res.json({
