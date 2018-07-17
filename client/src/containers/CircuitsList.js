@@ -43,11 +43,10 @@ class CircuitsList extends Component {
   handleChooseAll = () => {
     this.setState((prevState) => {
       const { isChoosedAll } = prevState;
-
       return {
         isChoosedAll: !isChoosedAll,
         checked: !isChoosedAll
-          ? this.props.data.map((v) => v.id) : [],
+          ? this.props.data.map((v) => v.circuitId) : [],
       };
     });
   };

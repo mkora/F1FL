@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
+
+import WrappedCircuitsList from './WrappedCircuitsList';
 import Footer from '../components/Footer';
-import CircuitsList from './CircuitsList';
-import { circuits } from '../api';
+import { circuits, laps } from '../api';
 import withRoot from '../withRoot';
 import '../css/App.css';
 
@@ -28,7 +29,8 @@ class App extends Component {
   state = {
     circuits: [],
     error: false,
-    loading: true,   
+    loading: true,
+    open: false,
   };
 
   async componentDidMount() {
@@ -68,17 +70,17 @@ class App extends Component {
         <Typography variant="display1" align="center">
           F1 Fastest Lap by Curcuit
         </Typography>
-        <Grid container spacing={24} className={classes.container}>
-          <Grid item xs={8}>
-            <Paper className={classes.paper}>Graphs are here</Paper>
-          </Grid>
-          <Grid item xs={4}>
-            <Paper className={classes.paper}>
-              { showCircuits && <CircuitsList data={circuits}/> }
-              { !showCircuits && <div>ERROR</div>}
-            </Paper>
-          </Grid>        
-        </Grid>
+        <Paper className={classes.paper}>
+          <Button
+            onClick={this.handleClickOpen}
+            disabled={error}
+          >Choose circuits</Button>
+          Graph is here
+        </Paper>
+
+        { showCircuits && <WrappedCircuitsList data={circuits} /> }
+        { !showCircuits && <div>ERROR</div>}
+  
         <Footer />       
       </div>
     );
