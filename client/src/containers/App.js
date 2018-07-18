@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 
-import WrappedCircuitsList from './WrappedCircuitsList';
+import WrappedCircuitsList from '../components/WrappedCircuitsList';
 import Footer from '../components/Footer';
 import { circuits, laps } from '../api';
 import withRoot from '../withRoot';
@@ -16,9 +16,6 @@ const styles = theme => ({
     flexGrow: 1,
     paddingTop: theme.spacing.unit * 2,
   },
-  container: {
-    padding: theme.spacing.unit * 2,
-  },  
   paper: {
     color: theme.palette.text.secondary,
   },
@@ -55,12 +52,21 @@ class App extends Component {
     }
   }
 
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClickClose = () => {
+    this.setState({ open: false });
+  };
+
   render() {
     const { classes } = this.props;
     const {
       circuits,
       error,
       loading,
+      open,
     } = this.state;
 
     const showCircuits = !error && circuits.length;
@@ -68,7 +74,7 @@ class App extends Component {
     return (
       <div className={classes.root}>
         <Typography variant="display1" align="center">
-          F1 Fastest Lap by Curcuit
+          F1 Fastest Lap by Circuit
         </Typography>
         <Paper className={classes.paper}>
           <Button
@@ -78,7 +84,13 @@ class App extends Component {
           Graph is here
         </Paper>
 
-        { showCircuits && <WrappedCircuitsList data={circuits} /> }
+        { showCircuits 
+          && <WrappedCircuitsList
+            data={circuits}
+            open={open}
+            onClickClose={this.handleClickClose}
+          />
+        }
         { !showCircuits && <div>ERROR</div>}
   
         <Footer />       
