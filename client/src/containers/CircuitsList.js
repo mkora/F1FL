@@ -6,6 +6,7 @@ import ListItem from '@material-ui/core/ListItem';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Grid from '@material-ui/core/Grid';
 
 const styles = theme => ({
   root: {},
@@ -61,6 +62,13 @@ class CircuitsList extends Component {
       isChoosedAll,
     } = this.state;
 
+    const columnCount = Math.floor(data.length / 3);
+    const columnData = [
+      data.slice(0, columnCount),
+      data.slice(columnCount, columnCount * 2),
+      data.slice(columnCount * 2),
+    ];
+
     return (
       <div className={classes.root}>
         <div className={classes.header}>
@@ -74,25 +82,36 @@ class CircuitsList extends Component {
             }
             label="Choose All"
           />
-        </div>              
-        <List>
-            {data.map((d) => (
-              <ListItem
-                key={d.circuitId}
-                role={undefined}
-                button
-                onClick={this.handleToggle(d.circuitId)}
-                className={classes.listItem}
+        </div>
+        <List disablePadding={true}>
+          <Grid container spacing={0}>
+            {columnData.map((row, k) => (
+              <Grid 
+                item
+                xs={12} sm={6} md={4}
+                key={`column-${k}`}
               >
-                <Checkbox
-                  checked={checked.indexOf(d.circuitId) !== -1}
-                  tabIndex={-1}
-                  disableRipple
-                />
-                <ListItemText primary={d.name} />
-              </ListItem>
+                {row.map((d) => (
+                  <ListItem
+                    key={d.circuitId}
+                    role={undefined}
+                    button
+                    onClick={this.handleToggle(d.circuitId)}
+                    className={classes.listItem}
+                    dense={true}
+                  >
+                    <Checkbox
+                      checked={checked.indexOf(d.circuitId) !== -1}
+                      tabIndex={-1}
+                      disableRipple
+                    />
+                    <ListItemText primary={d.name} />
+                  </ListItem>
+                ))}
+              </Grid>
             ))}
-          </List>        
+          </Grid>
+        </List>        
       </div>
     );
   }

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -29,6 +28,8 @@ const WrappedCircuitsList = ({
     aria-labelledby="dialog-title"
     className={classes.root}
     scroll="body"
+    fullWidth={true}
+    maxWidth="md"
   >
     <DialogTitle id="responsive-dialog-title">
       Add circuits for display
