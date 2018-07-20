@@ -18,13 +18,15 @@ const styles = theme => ({
 
 const WrappedCircuitsList = ({
   classes,
-  open,
+  isOpen,
   data,
-  onClickClose,
+  checked,
+  onCloseClick,
+  onCheckedChange,
 }) => (
   <Dialog
-    open={open}
-    onClose={onClickClose}
+    open={isOpen}
+    onClose={onCloseClick}
     aria-labelledby="dialog-title"
     className={classes.root}
     scroll="body"
@@ -35,16 +37,20 @@ const WrappedCircuitsList = ({
       Add circuits for display
     </DialogTitle>
     <DialogContent>
-      <CircuitsList data={data}/>
+      <CircuitsList
+        onCheckedChange={onCheckedChange}
+        data={data}
+        checked={checked}
+      />
     </DialogContent>
     <DialogActions>
       <Button 
-        onClick={onClickClose}
+        onClick={onCloseClick}
         color="primary"
       >Search
       </Button>
       <Button
-        onClick={onClickClose}
+        onClick={onCloseClick}
         color="primary"
         autoFocus
       >Cancel
@@ -56,8 +62,10 @@ const WrappedCircuitsList = ({
 WrappedCircuitsList.propTypes = {
   classes: PropTypes.object.isRequired,
   data: PropTypes.array.isRequired,
-  open: PropTypes.bool.isRequired,
-  onClickClose: PropTypes.func.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  checked: PropTypes.array.isRequired,
+  onCloseClick: PropTypes.func.isRequired,
+  onCheckedChange: PropTypes.func.isRequired,
 };
 
 export default withMobileDialog()(withStyles(styles)(WrappedCircuitsList));

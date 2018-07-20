@@ -25,9 +25,10 @@ class App extends Component {
 
   state = {
     circuits: [],
-    error: false,
-    loading: true,
-    open: false,
+    checked: [],
+    isError: false,
+    isLoading: true,
+    isOpen: false,
   };
 
   async componentDidMount() {
@@ -36,40 +37,65 @@ class App extends Component {
       if(circuitsData.status) {
         this.setState({ 
           circuits: circuitsData.data,
-          loading: false,
+          isLoading: false,
         });
       } else {
         this.setState({
-        error: true,
-        loading: false,
+        isError: true,
+        isLoading: false,
       });        
       }
     } catch (err) {
       this.setState({
-        error: true,
-        loading: false,
+        isError: true,
+        isLoading: false,
       });
     }
   }
 
-  handleClickOpen = () => {
-    this.setState({ open: true });
+  handleOpenClick = () => {
+    this.setState({ isOpen: true });
   };
 
-  handleClickClose = () => {
-    this.setState({ open: false });
+  handleCloseClick = () => {
+    this.setState({ isOpen: false });
   };
+
+  handleCheckedChange = (value) => {
+    if (!Array.isArray(value)) {
+      this.setState((prevState) => {
+        const { checked } = prevState;
+
+        const currentIndex = checked.indexOf(value);
+        const newChecked = [...checked];
+        if (currentIndex === -1) {
+          newChecked.push(value);
+        } else {
+          newChecked.splice(currentIndex, 1);
+        }
+
+        return {
+          checked: newChecked,
+        };
+      });
+    } else {
+      this.setState({
+        checked: value,
+      });
+    }
+  }
 
   render() {
     const { classes } = this.props;
     const {
       circuits,
-      error,
-      loading,
-      open,
+      isError,
+      isLoading,
+      isOpen,
+      checked,
     } = this.state;
 
-    const showCircuits = !error && circuits.length;
+    const showCircuits = !isError && circuits.length;
 
     return (
       <div className={classes.root}>
@@ -78,8 +104,8 @@ class App extends Component {
         </Typography>
         <Paper className={classes.paper}>
           <Button
-            onClick={this.handleClickOpen}
-            disabled={error}
+            onClick={this.handleOpenClick}
+            disabled={isError}
           >Choose circuits</Button>
           Graph is here
         </Paper>
@@ -87,8 +113,10 @@ class App extends Component {
         { showCircuits 
           && <WrappedCircuitsList
             data={circuits}
-            open={open}
-            onClickClose={this.handleClickClose}
+            isOpen={isOpen}
+            checked={checked}
+            onCloseClick={this.handleCloseClick}
+            onCheckedChange={this.handleCheckedChange}
           />
         }
         { !showCircuits && <div>ERROR</div>}

@@ -17,38 +17,34 @@ const styles = theme => ({
 
 class CircuitsList extends Component {
   state = {
-    checked: [],
+    // checked: [],
     isChoosedAll: false,
   };
 
-  handleToggle = (value) => () => {
-    this.setState((prevState) => {
-      const { checked } = prevState;
-
-      const currentIndex = checked.indexOf(value);
-      const newChecked = [...checked];
-      if (currentIndex === -1) {
-        newChecked.push(value);
-      } else {
-        newChecked.splice(currentIndex, 1);
-      }
-
-      return {
-        checked: newChecked,
-        isChoosedAll: newChecked.length
-          === this.props.data.length,
-      };
+  handleCheckedToggle = (value) => () => {
+    const {
+      checked,
+      onCheckedChange,
+    } = this.props;
+    onCheckedChange(value);
+    this.setState({
+      isChoosedAll: checked.length === this.props.data.length,
     });
   };
 
   handleChooseAll = () => {
-    this.setState((prevState) => {
-      const { isChoosedAll } = prevState;
-      return {
+    const { isChoosedAll } = this.state;
+    const {
+      data,
+      onCheckedChange,
+    } = this.props;
+    const checked = !isChoosedAll
+      ? data.map((v) => v.circuitId) : [];
+
+    onCheckedChange(checked);
+
+    this.setState({
         isChoosedAll: !isChoosedAll,
-        checked: !isChoosedAll
-          ? this.props.data.map((v) => v.circuitId) : [],
-      };
     });
   };
 
@@ -56,9 +52,10 @@ class CircuitsList extends Component {
     const { 
       data,
       classes,
+      checked,
     } = this.props;
     const {
-      checked,
+      // checked,
       isChoosedAll,
     } = this.state;
 
@@ -96,7 +93,7 @@ class CircuitsList extends Component {
                     key={d.circuitId}
                     role={undefined}
                     button
-                    onClick={this.handleToggle(d.circuitId)}
+                    onClick={this.handleCheckedToggle(d.circuitId)}
                     className={classes.listItem}
                     dense={true}
                   >
@@ -120,6 +117,8 @@ class CircuitsList extends Component {
 CircuitsList.propTypes = {
   classes: PropTypes.object.isRequired,
   data: PropTypes.array.isRequired,
+  checked: PropTypes.array.isRequired,
+  onCheckedChange: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(CircuitsList);
