@@ -62,9 +62,9 @@ class App extends Component {
     this.setState({ isOpen: false });
   };
 
-  handleCheckedChange = (value) => {
+  handleCheckedChange = (value) => () => {
     this.setState((prevState) => {
-      const { checked } = prevState;
+      const { checked, circuits } = prevState;
       const currentIndex = checked.indexOf(value);
       const newChecked = [...checked];
       if (currentIndex === -1) {
@@ -73,7 +73,7 @@ class App extends Component {
         newChecked.splice(currentIndex, 1);
       }
       return {
-        isCheckedAll: checked.length === this.state.circuits.length,
+        isCheckedAll: newChecked.length === circuits.length,
         checked: newChecked,
       };
     });
