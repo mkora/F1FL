@@ -29,6 +29,7 @@ class App extends Component {
     isError: false,
     isLoading: true,
     isOpen: false,
+    isCheckedAll: false,
   };
 
   async componentDidMount() {
@@ -62,28 +63,31 @@ class App extends Component {
   };
 
   handleCheckedChange = (value) => {
-    if (!Array.isArray(value)) {
-      this.setState((prevState) => {
-        const { checked } = prevState;
-
-        const currentIndex = checked.indexOf(value);
-        const newChecked = [...checked];
-        if (currentIndex === -1) {
-          newChecked.push(value);
-        } else {
-          newChecked.splice(currentIndex, 1);
-        }
-
-        return {
-          checked: newChecked,
-        };
-      });
-    } else {
-      this.setState({
-        checked: value,
-      });
-    }
+    this.setState((prevState) => {
+      const { checked } = prevState;
+      const currentIndex = checked.indexOf(value);
+      const newChecked = [...checked];
+      if (currentIndex === -1) {
+        newChecked.push(value);
+      } else {
+        newChecked.splice(currentIndex, 1);
+      }
+      return {
+        isCheckedAll: checked.length === this.state.circuits.length,
+        checked: newChecked,
+      };
+    });
   }
+
+  handleCheckedAllClick = () => {
+    const { isCheckedAll } = this.state;
+    const checked = !isCheckedAll
+      ? this.state.circuits.map((v) => v.circuitId) : [];
+    this.setState({
+      checked,
+      isCheckedAll: !isCheckedAll,
+    });
+  };
 
   render() {
     const { classes } = this.props;
@@ -93,6 +97,7 @@ class App extends Component {
       isLoading,
       isOpen,
       checked,
+      isCheckedAll,
     } = this.state;
 
     const showCircuits = !isError && circuits.length;
@@ -115,8 +120,10 @@ class App extends Component {
             data={circuits}
             isOpen={isOpen}
             checked={checked}
+            isCheckedAll={isCheckedAll}
             onCloseClick={this.handleCloseClick}
             onCheckedChange={this.handleCheckedChange}
+            onCheckedAllClick={this.handleCheckedAllClick}
           />
         }
         { !showCircuits && <div>ERROR</div>}

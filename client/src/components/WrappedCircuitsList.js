@@ -8,7 +8,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import withMobileDialog from '@material-ui/core/withMobileDialog';
 import { withStyles } from '@material-ui/core/styles';
 
-import CircuitsList from '../containers/CircuitsList';
+import CircuitsList from '../components/CircuitsList';
 
 const styles = theme => ({ 
   root: {
@@ -21,8 +21,10 @@ const WrappedCircuitsList = ({
   isOpen,
   data,
   checked,
+  isCheckedAll,
   onCloseClick,
   onCheckedChange,
+  onCheckedAllClick,
 }) => (
   <Dialog
     open={isOpen}
@@ -38,9 +40,11 @@ const WrappedCircuitsList = ({
     </DialogTitle>
     <DialogContent>
       <CircuitsList
-        onCheckedChange={onCheckedChange}
-        data={data}
         checked={checked}
+        isCheckedAll={isCheckedAll}      
+        onCheckedChange={onCheckedChange}
+        onCheckedAllClick={onCheckedAllClick}
+        data={data}
       />
     </DialogContent>
     <DialogActions>
@@ -64,8 +68,10 @@ WrappedCircuitsList.propTypes = {
   data: PropTypes.array.isRequired,
   isOpen: PropTypes.bool.isRequired,
   checked: PropTypes.array.isRequired,
+  isCheckedAll: PropTypes.bool.isRequired,
   onCloseClick: PropTypes.func.isRequired,
   onCheckedChange: PropTypes.func.isRequired,
+  onCheckedAllClick: PropTypes.func.isRequired,
 };
 
 export default withMobileDialog()(withStyles(styles)(WrappedCircuitsList));
