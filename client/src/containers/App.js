@@ -25,6 +25,7 @@ class App extends Component {
 
   state = {
     circuits: [],
+    times: [],
     checked: [],
     isError: false,
     isLoading: true,
@@ -61,6 +62,32 @@ class App extends Component {
   handleCloseClick = () => {
     this.setState({ isOpen: false });
   };
+
+  handleSearchClick = async (ids) => {
+    try {
+      const timesData = await laps(ids);
+      if(timesData.status) {
+        this.setState({ 
+          times: [],
+          isOpen: false,
+          isLoading: false,
+        });
+        console.log(timesData);
+      } else {
+        this.setState({
+          isError: true,
+          isOpen: false,
+          isLoading: false,
+        });        
+      }
+    } catch (err) {
+      this.setState({
+        isError: true,
+        isOpen: false,
+        isLoading: false,
+      });
+    }    
+  }
 
   handleCheckedChange = (value) => () => {
     this.setState((prevState) => {
@@ -121,6 +148,7 @@ class App extends Component {
             isOpen={isOpen}
             checked={checked}
             isCheckedAll={isCheckedAll}
+            onSearchClick={this.handleSearchClick({checked})}
             onCloseClick={this.handleCloseClick}
             onCheckedChange={this.handleCheckedChange}
             onCheckedAllClick={this.handleCheckedAllClick}

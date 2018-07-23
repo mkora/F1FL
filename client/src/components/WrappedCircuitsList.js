@@ -22,6 +22,7 @@ const WrappedCircuitsList = ({
   data,
   checked,
   isCheckedAll,
+  onSearchClick,
   onCloseClick,
   onCheckedChange,
   onCheckedAllClick,
@@ -49,7 +50,7 @@ const WrappedCircuitsList = ({
     </DialogContent>
     <DialogActions>
       <Button 
-        onClick={onCloseClick}
+        onClick={onSearchClick}
         color="primary"
       >Search
       </Button>
@@ -69,6 +70,7 @@ WrappedCircuitsList.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   checked: PropTypes.array.isRequired,
   isCheckedAll: PropTypes.bool.isRequired,
+  onSearchClick: PropTypes.bool.isRequired,
   onCloseClick: PropTypes.func.isRequired,
   onCheckedChange: PropTypes.func.isRequired,
   onCheckedAllClick: PropTypes.func.isRequired,
