@@ -11,7 +11,8 @@ export async function circuits() {
 
 export async function laps(ids = []) {
   try {
-    const data = await axios.get(`/api/laps/${ids.join(',')}`);
+    const numbers = ids.length > 0 ? `?id=${ids.join(',')}` : '';
+    const data = await axios.get(`/api/laps${numbers}`);
     return Promise.resolve(data.data);
   } catch (error) {
     return Promise.reject(error.response);
