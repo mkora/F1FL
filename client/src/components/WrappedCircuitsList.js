@@ -70,7 +70,7 @@ WrappedCircuitsList.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   checked: PropTypes.array.isRequired,
   isCheckedAll: PropTypes.bool.isRequired,
-  onSearchClick: PropTypes.bool.isRequired,
+  onSearchClick: PropTypes.func.isRequired,
   onCloseClick: PropTypes.func.isRequired,
   onCheckedChange: PropTypes.func.isRequired,
   onCheckedAllClick: PropTypes.func.isRequired,

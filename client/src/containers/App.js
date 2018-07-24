@@ -63,7 +63,7 @@ class App extends Component {
     this.setState({ isOpen: false });
   };
 
-  handleSearchClick = async (ids) => {
+  handleSearchClick = (ids) => async () => {
     try {
       const timesData = await laps(ids);
       if(timesData.status) {
@@ -148,7 +148,7 @@ class App extends Component {
             isOpen={isOpen}
             checked={checked}
             isCheckedAll={isCheckedAll}
-            onSearchClick={this.handleSearchClick({checked})}
+            onSearchClick={this.handleSearchClick(checked)}
             onCloseClick={this.handleCloseClick}
             onCheckedChange={this.handleCheckedChange}
             onCheckedAllClick={this.handleCheckedAllClick}
