@@ -9,7 +9,7 @@ import WrappedCircuitsList from '../components/WrappedCircuitsList';
 import Footer from '../components/Footer';
 import { circuits, laps } from '../api';
 import withRoot from '../withRoot';
-import '../css/App.css';
+import 'react-vis/dist/style.css';
 
 const styles = theme => ({
   root: {
