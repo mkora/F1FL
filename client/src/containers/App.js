@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
 import { withStyles } from '@material-ui/core/styles';
 
 import WrappedCircuitsList from '../components/WrappedCircuitsList';
@@ -14,8 +16,10 @@ import 'react-vis/dist/style.css';
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    paddingTop: theme.spacing.unit * 2,
   },
+  flex: {
+    flexGrow: 1,
+  },  
   paper: {
     color: theme.palette.text.secondary,
   },
@@ -68,11 +72,11 @@ class App extends Component {
       const timesData = await laps(ids);
       if(timesData.status) {
         this.setState({ 
-          times: [],
+          times: timesData.data,
           isOpen: false,
           isLoading: false,
         });
-        console.log(timesData);
+console.log(timesData.data);
       } else {
         this.setState({
           isError: true,
@@ -131,14 +135,20 @@ class App extends Component {
 
     return (
       <div className={classes.root}>
-        <Typography variant="display1" align="center">
-          F1 Fastest Lap by Circuit
-        </Typography>
+        <AppBar position="static">
+          <Toolbar>
+            <Typography variant="title" color="inherit" className={classes.flex}>
+              F1 Fastest lap by circuit
+            </Typography>
+            <Button
+              color="inherit"
+              onClick={this.handleOpenClick}
+              disabled={isError}
+            >Choose circuits</Button>
+          </Toolbar>
+        </AppBar>
+
         <Paper className={classes.paper}>
-          <Button
-            onClick={this.handleOpenClick}
-            disabled={isError}
-          >Choose circuits</Button>
           Graph is here
         </Paper>
 
