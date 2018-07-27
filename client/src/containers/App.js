@@ -5,9 +5,11 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import { withStyles } from '@material-ui/core/styles';
-
+import Snackbar from '@material-ui/core/Snackbar';
 import WrappedCircuitsList from '../components/WrappedCircuitsList';
+import WrappedSnackbarContent from '../components/WrappedSnackbarContent';
 import Footer from '../components/Footer';
 import { circuits, laps } from '../api';
 import withRoot from '../withRoot';
@@ -33,7 +35,8 @@ class App extends Component {
     checked: [],
     isError: false,
     isLoading: true,
-    isOpen: false,
+    isOpenDialog: false,
+    isOpenSnack: false,
     isCheckedAll: false,
   };
 
@@ -60,11 +63,15 @@ class App extends Component {
   }
 
   handleOpenClick = () => {
-    this.setState({ isOpen: true });
+    this.setState({ isOpenDialog: true });
   };
 
   handleCloseClick = () => {
-    this.setState({ isOpen: false });
+    this.setState({ isOpenDialog: false });
+  };
+
+  handleSnackCloseClick = () => {
+    this.setState({ isOpenSnack: false });
   };
 
   handleSearchClick = (ids) => async () => {
@@ -73,21 +80,21 @@ class App extends Component {
       if(timesData.status) {
         this.setState({ 
           times: timesData.data,
-          isOpen: false,
+          isOpenDialog: false,
           isLoading: false,
         });
 console.log(timesData.data);
       } else {
         this.setState({
           isError: true,
-          isOpen: false,
+          isOpenDialog: false,
           isLoading: false,
         });        
       }
     } catch (err) {
       this.setState({
         isError: true,
-        isOpen: false,
+        isOpenDialog: false,
         isLoading: false,
       });
     }    
@@ -126,10 +133,14 @@ console.log(timesData.data);
       circuits,
       isError,
       isLoading,
-      isOpen,
+      isOpenDialog,
       checked,
       isCheckedAll,
     } = this.state;
+
+    if (isLoading) {
+      return <LinearProgress color="inherit" />
+    }
 
     const showCircuits = !isError && circuits.length;
 
@@ -155,7 +166,7 @@ console.log(timesData.data);
         { showCircuits 
           && <WrappedCircuitsList
             data={circuits}
-            isOpen={isOpen}
+            isOpen={isOpenDialog}
             checked={checked}
             isCheckedAll={isCheckedAll}
             onSearchClick={this.handleSearchClick(checked)}
@@ -164,7 +175,24 @@ console.log(timesData.data);
             onCheckedAllClick={this.handleCheckedAllClick}
           />
         }
-        { !showCircuits && <div>ERROR</div>}
+
+        { !showCircuits &&
+          <Snackbar
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            open={this.state.isOpenSnack}
+            autoHideDuration={6000}
+            onClose={this.handleSnackCloseClick}
+          >
+          <WrappedSnackbarContent
+            variant="error"
+            className={classes.margin}
+            message="This is an error message!"
+          />
+          </Snackbar>
+        }
   
         <Footer />       
       </div>
