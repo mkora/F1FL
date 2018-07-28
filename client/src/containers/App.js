@@ -47,18 +47,23 @@ class App extends Component {
         this.setState({ 
           circuits: circuitsData.data,
           isLoading: false,
+          isError: false,
         });
       } else {
         this.setState({
-        isError: true,
-        isLoading: false,
-      });        
+          isError: true,
+          isLoading: false,
+          isOpenSnack: true,
+        });
+        console.log(circuitsData.error);
       }
     } catch (err) {
       this.setState({
         isError: true,
         isLoading: false,
+        isOpenSnack: true,
       });
+      console.log(err);
     }
   }
 
@@ -82,21 +87,26 @@ class App extends Component {
           times: timesData.data,
           isOpenDialog: false,
           isLoading: false,
+          isError: false,
         });
 console.log(timesData.data);
       } else {
         this.setState({
           isError: true,
+          isOpenSnack: true,
           isOpenDialog: false,
           isLoading: false,
-        });        
+        });
+        console.log(timesData.error);
       }
     } catch (err) {
       this.setState({
         isError: true,
+        isOpenSnack: true,
         isOpenDialog: false,
         isLoading: false,
       });
+      console.log(err);
     }    
   }
 
@@ -134,12 +144,13 @@ console.log(timesData.data);
       isError,
       isLoading,
       isOpenDialog,
+      isOpenSnack,
       checked,
       isCheckedAll,
     } = this.state;
 
     if (isLoading) {
-      return <LinearProgress color="inherit" />
+      return <LinearProgress color="primary" />
     }
 
     const showCircuits = !isError && circuits.length;
@@ -182,15 +193,15 @@ console.log(timesData.data);
               vertical: 'bottom',
               horizontal: 'left',
             }}
-            open={this.state.isOpenSnack}
+            open={isOpenSnack}
             autoHideDuration={6000}
             onClose={this.handleSnackCloseClick}
           >
-          <WrappedSnackbarContent
-            variant="error"
-            className={classes.margin}
-            message="This is an error message!"
-          />
+            <WrappedSnackbarContent
+              variant="error"
+              className={classes.margin}
+              message="Oops! Something went wrong! Please, try again later."
+            />
           </Snackbar>
         }
   
