@@ -75,7 +75,7 @@ class App extends Component {
     this.setState({ isOpenDialog: false });
   };
 
-  handleSnackCloseClick = () => {
+  handleSnackCloseClick = () => {  
     this.setState({ isOpenSnack: false });
   };
 
@@ -195,12 +195,12 @@ console.log(timesData.data);
             }}
             open={isOpenSnack}
             autoHideDuration={6000}
-            onClose={this.handleSnackCloseClick}
           >
             <WrappedSnackbarContent
               variant="error"
               className={classes.margin}
               message="Oops! Something went wrong! Please, try again later."
+              onClose={this.handleSnackCloseClick}
             />
           </Snackbar>
         }
