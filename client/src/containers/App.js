@@ -10,6 +10,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Snackbar from '@material-ui/core/Snackbar';
 import WrappedCircuitsList from '../components/WrappedCircuitsList';
 import WrappedSnackbarContent from '../components/WrappedSnackbarContent';
+import TimesGraph from './TimesGraph';
 import Footer from '../components/Footer';
 import { circuits, laps } from '../api';
 import withRoot from '../withRoot';
@@ -141,6 +142,7 @@ console.log(timesData.data);
     const { classes } = this.props;
     const {
       circuits,
+      times,
       isError,
       isLoading,
       isOpenDialog,
@@ -159,19 +161,36 @@ console.log(timesData.data);
       <div className={classes.root}>
         <AppBar position="static">
           <Toolbar>
-            <Typography variant="title" color="inherit" className={classes.flex}>
+            <Typography
+              variant="title"
+              color="inherit"
+              className={classes.flex}>
               F1 Fastest lap by circuit
             </Typography>
             <Button
               color="inherit"
               onClick={this.handleOpenClick}
-              disabled={isError}
-            >Choose circuits</Button>
+              disabled={isError}>
+              Choose circuits
+            </Button>
           </Toolbar>
         </AppBar>
 
         <Paper className={classes.paper}>
-          Graph is here
+          <TimesGraph data={
+            [
+              [
+                {x: 1, y: 10},
+                {x: 2, y: 7},
+                {x: 3, y: 15}
+              ],
+              [
+                {x: 1, y: 20},
+                {x: 2, y: 5},
+                {x: 3, y: 15}
+              ]
+            ]
+          } />
         </Paper>
 
         { showCircuits 
@@ -194,14 +213,13 @@ console.log(timesData.data);
               horizontal: 'left',
             }}
             open={isOpenSnack}
-            autoHideDuration={6000}
-          >
-            <WrappedSnackbarContent
-              variant="error"
-              className={classes.margin}
-              message="Oops! Something went wrong! Please, try again later."
-              onClose={this.handleSnackCloseClick}
-            />
+            autoHideDuration={6000}>
+              <WrappedSnackbarContent
+                variant="error"
+                className={classes.margin}
+                message="Oops! Something went wrong! Please, try again later."
+                onClose={this.handleSnackCloseClick}
+              />
           </Snackbar>
         }
   
