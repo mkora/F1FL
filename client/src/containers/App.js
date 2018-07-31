@@ -85,12 +85,20 @@ class App extends Component {
       const timesData = await laps(ids);
       if(timesData.status) {
         this.setState({ 
-          times: timesData.data,
+          times: Object
+            .values(timesData.data)
+            .map((circuit) => 
+              circuit.map((d) => {
+                return {
+                  x: d.year,
+                  y: d.fastestLapTime,
+                };
+              })
+            ),
           isOpenDialog: false,
           isLoading: false,
           isError: false,
         });
-console.log(timesData.data);
       } else {
         this.setState({
           isError: true,
