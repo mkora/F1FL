@@ -29,6 +29,8 @@ const styles = theme => ({
 });
 
 class App extends Component {
+  /** DEBUG */
+  debug = true;
 
   state = {
     circuits: [],
@@ -42,6 +44,12 @@ class App extends Component {
   };
 
   async componentDidMount() {
+    /** DEBUG */
+    if (this.debug === true) {
+      await this.handleSearchClick([1, 2, 3])();
+      return;
+    }
+
     try {
       const circuitsData = await circuits();
       if(circuitsData.status) {
@@ -99,6 +107,7 @@ class App extends Component {
           isLoading: false,
           isError: false,
         });
+console.log(this.state.times);
       } else {
         this.setState({
           isError: true,
