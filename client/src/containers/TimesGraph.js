@@ -8,8 +8,8 @@ import {
   VerticalGridLines,
   HorizontalGridLines,
   LineSeries,
-  Crosshair
 } from 'react-vis';
+import { tStringOf } from '../util/moment';
 
 const styles = theme => ({
   root: {
@@ -18,42 +18,39 @@ const styles = theme => ({
 });
 
 class TimesGraph extends Component {
-  state = {
-    crosshairValues: [],
-  };
 
-  handleNearestX = (value, { index }) => {
-    this.setState({
-      crosshairValues: this.props.data.map(d => d[index])
-    });
-  }
+  static xTickFormatValue = (v) => tStringOf(v);
 
-  handleMouseLeave = () => {
-    this.setState({
-      crosshairValues: []
-    });
-  }
+  static yTickFormatValue = (v) => `${v}`;
 
   render() {
     const { data } = this.props;
-    const { crosshairValues } = this.state;
+
+    const flatten = data
+      .map(d => d.map(e => e.x))
+      .reduce((acc, val) => acc.concat(val), []);
+    const xMin = Math.min(...flatten);
+    const xMax = Math.max(...flatten);
+
     return (
       <XYPlot
         onMouseLeave={this.handleMouseLeave}
-        width={300}
-        height={300}>
+        width={750}
+        height={400}
+        xType="linear"
+        xDomain={[xMin, xMax]}
+        yType="linear"
+        margin={{top: 10, right: 10, left: 60, bottom: 40}}
+      >
         <VerticalGridLines />
         <HorizontalGridLines />
-        <XAxis />
-        <YAxis />
+        <XAxis tickFormat={TimesGraph.xTickFormatValue}/>
+        <YAxis tickFormat={TimesGraph.yTickFormatValue}/>
 
-        <LineSeries
-          onNearestX={this.handleNearestX}
-          data={data[0]}/>
-        <LineSeries
-          data={data[1]}/>
-        
-        <Crosshair values={crosshairValues} />
+        { data.map((d, k) => <LineSeries
+          key={k}
+          data={d}/>) }
+
       </XYPlot>
     );
   }

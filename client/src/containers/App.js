@@ -15,6 +15,7 @@ import Footer from '../components/Footer';
 import { circuits, laps } from '../api';
 import withRoot from '../withRoot';
 import 'react-vis/dist/style.css';
+import { tValueOf } from '../util/moment';
 
 const styles = theme => ({
   root: {
@@ -98,8 +99,8 @@ class App extends Component {
             .map((circuit) => 
               circuit.map((d) => {
                 return {
-                  x: d.year,
-                  y: d.fastestLapTime,
+                  x: tValueOf(d.fastestLapTime),
+                  y: d.year,
                 };
               })
             ),
@@ -107,7 +108,6 @@ class App extends Component {
           isLoading: false,
           isError: false,
         });
-console.log(this.state.times);
       } else {
         this.setState({
           isError: true,
@@ -194,8 +194,8 @@ console.log(this.state.times);
         </AppBar>
 
         <Paper className={classes.paper}>
-          <TimesGraph data={
-            [
+          <TimesGraph data={times
+            /* [
               [
                 {x: 1, y: 10},
                 {x: 2, y: 7},
@@ -207,6 +207,7 @@ console.log(this.state.times);
                 {x: 3, y: 15}
               ]
             ]
+            */
           } />
         </Paper>
 
