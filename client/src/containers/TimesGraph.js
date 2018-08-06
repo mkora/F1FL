@@ -7,7 +7,8 @@ import {
   YAxis,
   VerticalGridLines,
   HorizontalGridLines,
-  LineSeries,
+  LineMarkSeries,
+  Hint,
 } from 'react-vis';
 import { tStringOf } from '../util/moment';
 
@@ -18,12 +19,27 @@ const styles = theme => ({
 });
 
 class TimesGraph extends Component {
+  state = {
+    tooltip: null,
+  };
 
   static xTickFormatValue = (v) => tStringOf(v);
 
   static yTickFormatValue = (v) => `${v}`;
 
+  handleMouseOver = (tooltip) => {
+    this.setState({ tooltip });
+  }
+
+  handleMouseOut = () => {
+    this.setState({
+      tooltip: null
+    });
+  }
+
+
   render() {
+    const { tooltip } = this.state;
     const { data } = this.props;
 
     const flatten = data
@@ -47,9 +63,14 @@ class TimesGraph extends Component {
         <XAxis tickFormat={TimesGraph.xTickFormatValue}/>
         <YAxis tickFormat={TimesGraph.yTickFormatValue}/>
 
-        { data.map((d, k) => <LineSeries
-          key={k}
-          data={d}/>) }
+        { data.map((d, k) => <LineMarkSeries
+            onValueMouseOver={this.handleMouseOver}
+            onValueMouseOut={this.handleMouseOut}
+            key={k}
+            data={d}/>
+          )
+        }
+        {tooltip && <Hint value={tooltip}/> }
 
       </XYPlot>
     );
