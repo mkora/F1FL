@@ -70,7 +70,15 @@ class TimesGraph extends Component {
             data={d}/>
           )
         }
-        {tooltip && <Hint value={tooltip}/> }
+        {tooltip &&
+          <Hint value={tooltip}>
+            <div className="rv-hint__content">
+              {`year: ${tooltip.y}`}
+              <br />
+              {`time: ${tStringOf(tooltip.x)}`}
+            </div>
+          </Hint>
+        }
 
       </XYPlot>
     );
