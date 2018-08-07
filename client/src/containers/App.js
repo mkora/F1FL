@@ -45,12 +45,6 @@ class App extends Component {
   };
 
   async componentDidMount() {
-    /** DEBUG */
-    if (this.debug === true) {
-      await this.handleSearchClick([1, 2, 3])();
-      return;
-    }
-
     try {
       const circuitsData = await circuits();
       if(circuitsData.status) {
@@ -74,6 +68,14 @@ class App extends Component {
         isOpenSnack: true,
       });
       console.log(err);
+    }
+
+    /** DEBUG */
+    if (this.debug === true) {
+      this.setState({
+        checked: [1, 2, 3,4, 5, 6, 7, 8, 9, 10]
+      });
+      await this.handleSearchClick(this.state.checked)();
     }
   }
 
@@ -173,7 +175,6 @@ class App extends Component {
     }
 
     const showCircuits = !isError && circuits.length;
-
     return (
       <div className={classes.root}>
         <AppBar position="static">
@@ -194,21 +195,17 @@ class App extends Component {
         </AppBar>
 
         <Paper className={classes.paper}>
-          <TimesGraph data={times
-            /* [
-              [
-                {x: 1, y: 10},
-                {x: 2, y: 7},
-                {x: 3, y: 15}
-              ],
-              [
-                {x: 1, y: 20},
-                {x: 2, y: 5},
-                {x: 3, y: 15}
-              ]
-            ]
-            */
-          } />
+          <TimesGraph
+            data={times}
+            legend={checked
+              ? circuits
+                .filter(c => checked.indexOf(c.circuitId) !== -1)
+                .map(c => {
+                  return { title: c.name };
+                })
+              : []
+            }
+          />
         </Paper>
 
         { showCircuits 

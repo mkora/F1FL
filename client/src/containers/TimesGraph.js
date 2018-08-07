@@ -9,6 +9,7 @@ import {
   HorizontalGridLines,
   LineMarkSeries,
   Hint,
+  DiscreteColorLegend,
 } from 'react-vis';
 import { tStringOf } from '../util/moment';
 
@@ -37,10 +38,14 @@ class TimesGraph extends Component {
     });
   }
 
-
   render() {
-    const { tooltip } = this.state;
-    const { data } = this.props;
+    const {
+      tooltip,
+    } = this.state;
+    const {
+      data,
+      legend,
+    } = this.props;
 
     const flatten = data
       .map(d => d.map(e => e.x))
@@ -49,38 +54,45 @@ class TimesGraph extends Component {
     const xMax = Math.max(...flatten);
 
     return (
-      <XYPlot
-        onMouseLeave={this.handleMouseLeave}
-        width={750}
-        height={400}
-        xType="linear"
-        xDomain={[xMin, xMax]}
-        yType="linear"
-        margin={{top: 10, right: 10, left: 60, bottom: 40}}
-      >
-        <VerticalGridLines />
-        <HorizontalGridLines />
-        <XAxis tickFormat={TimesGraph.xTickFormatValue}/>
-        <YAxis tickFormat={TimesGraph.yTickFormatValue}/>
+      <div>
+        <XYPlot
+          onMouseLeave={this.handleMouseLeave}
+          width={750}
+          height={400}
+          xType="linear"
+          xDomain={[xMin, xMax]}
+          yType="linear"
+          margin={{top: 10, right: 10, left: 60, bottom: 40}}
+        >
+          <VerticalGridLines />
+          <HorizontalGridLines />
+          <XAxis tickFormat={TimesGraph.xTickFormatValue}/>
+          <YAxis tickFormat={TimesGraph.yTickFormatValue}/>
 
-        { data.map((d, k) => <LineMarkSeries
-            onValueMouseOver={this.handleMouseOver}
-            onValueMouseOut={this.handleMouseOut}
-            key={k}
-            data={d}/>
-          )
-        }
-        {tooltip &&
-          <Hint value={tooltip}>
-            <div className="rv-hint__content">
-              {`year: ${tooltip.y}`}
-              <br />
-              {`time: ${tStringOf(tooltip.x)}`}
-            </div>
-          </Hint>
-        }
+          { data.map((d, k) => <LineMarkSeries
+              onValueMouseOver={this.handleMouseOver}
+              onValueMouseOut={this.handleMouseOut}
+              key={k}
+              data={d}/>
+            )
+          }
 
-      </XYPlot>
+          {tooltip &&
+            <Hint value={tooltip}>
+              <div className="rv-hint__content">
+                {`year: ${tooltip.y}`}
+                <br />
+                {`time: ${tStringOf(tooltip.x)}`}
+              </div>
+            </Hint>
+          }
+        </XYPlot>
+        <DiscreteColorLegend
+            height={200}
+            width={400}
+            items={legend}
+        />
+      </div>
     );
   }
 }
@@ -88,6 +100,7 @@ class TimesGraph extends Component {
 TimesGraph.propTypes = {
   classes: PropTypes.object.isRequired,
   data: PropTypes.array.isRequired,
+  legend: PropTypes.array.isRequired,
 };
 
 export default withStyles(styles)(TimesGraph);
