@@ -10,9 +10,6 @@ import Grid from '@material-ui/core/Grid';
 
 const styles = theme => ({
   root: {},
-  header: {
-
-  }
 });
 
 const CircuitsList = ({
