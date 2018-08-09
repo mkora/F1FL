@@ -22,11 +22,10 @@ const styles = theme => ({
 class TimesGraph extends Component {
   state = {
     tooltip: null,
+    highlight: null,
   };
 
   static xTickFormatValue = (v) => tStringOf(v);
-
-  static yTickFormatValue = (v) => `${v}`;
 
   handleMouseOver = (tooltip) => {
     this.setState({ tooltip });
@@ -35,6 +34,18 @@ class TimesGraph extends Component {
   handleMouseOut = () => {
     this.setState({
       tooltip: null
+    });
+  }
+
+  handleSeriesMouseOver = (str) => () => {
+    this.setState({
+      highlight: str,
+    });
+  }
+
+  handleSeriesMouseOut = () => {
+    this.setState({
+      highlight: null,
     });
   }
 
@@ -50,7 +61,7 @@ class TimesGraph extends Component {
     const flatten = data
       .map(d => d.map(e => e.x))
       .reduce((acc, val) => acc.concat(val), []);
-    const xMin = Math.min(...flatten);
+    const xMin = Math.min(...flatten) - 2500;
     const xMax = Math.max(...flatten);
 
     return (
@@ -61,20 +72,38 @@ class TimesGraph extends Component {
           height={400}
           xType="linear"
           xDomain={[xMin, xMax]}
-          yType="linear"
-          margin={{top: 10, right: 10, left: 60, bottom: 40}}
-        >
+          yType="ordinal"
+          margin={{
+            top: 10,
+            right: 10,
+            left: 60,
+            bottom: 40
+          }}>
           <VerticalGridLines />
           <HorizontalGridLines />
-          <XAxis tickFormat={TimesGraph.xTickFormatValue}/>
-          <YAxis tickFormat={TimesGraph.yTickFormatValue}/>
+          <XAxis
+            title="Fastest lap (minutes:seconds.milliseconds)"
+            tickFormat={TimesGraph.xTickFormatValue}
+          />
+          <YAxis title="Period of time (year)" />
 
-          { data.map((d, k) => <LineMarkSeries
-              onValueMouseOver={this.handleMouseOver}
-              onValueMouseOut={this.handleMouseOut}
-              key={k}
-              data={d}/>
-            )
+          { data.map((d, k) => {
+              return (
+                <LineMarkSeries
+                  onValueMouseOver={this.handleMouseOver}
+                  onValueMouseOut={this.handleMouseOut}
+                  onSeriesMouseOver={this.handleSeriesMouseOver(k)}
+                  onSeriesMouseOut={this.handleSeriesMouseOut}
+                  stroke={
+                    k === this.state.highlight 
+                      ? 'black' : null
+                  }
+                  size="3"
+                  key={k}
+                  data={d}
+                />
+              );
+            })
           }
 
           {tooltip &&
@@ -88,9 +117,9 @@ class TimesGraph extends Component {
           }
         </XYPlot>
         <DiscreteColorLegend
-            height={200}
-            width={400}
-            items={legend}
+          height={200}
+          width={400}
+          items={legend}
         />
       </div>
     );
