@@ -31,7 +31,7 @@ const styles = theme => ({
 
 class App extends Component {
   /** DEBUG */
-  debug = true;
+  debug = false;
 
   state = {
     circuits: [],
@@ -162,7 +162,7 @@ class App extends Component {
     const {
       circuits,
       times,
-      isError,
+      isError, 
       isLoading,
       isOpenDialog,
       isOpenSnack,
@@ -195,20 +195,30 @@ class App extends Component {
         </AppBar>
 
         <Paper className={classes.paper}>
-          <TimesGraph
-            data={times}
-            legend={checked
-              ? circuits
-                .filter(c => checked.indexOf(c.circuitId) !== -1)
-                .map(c => {
-                  return { title: c.name };
-                })
-              : []
-            }
-          />
+          { times.length
+              ? <TimesGraph
+                data={times}
+                legend={checked
+                  ? circuits
+                    .filter(c => checked.indexOf(c.circuitId) !== -1)
+                    .map(c => {
+                      return { title: c.name };
+                    })
+                  : []
+                }
+              />
+              : <Typography
+                variant="body2"
+                align="center"
+                gutterBottom>
+                Click `Choose circuits` and build a fastest lap times chart by seasons on circuits.
+                <br/>
+                Lap time data is available starting from the 1996 season.
+              </Typography>
+          }
         </Paper>
 
-        { showCircuits 
+        { showCircuits
           && <WrappedCircuitsList
             data={circuits}
             isOpen={isOpenDialog}

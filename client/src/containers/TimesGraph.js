@@ -119,7 +119,7 @@ class TimesGraph extends Component {
         </Grid>
         <Grid item md={12} lg={4} className={classes.legend}>        
           <DiscreteColorLegend
-            height={250}
+            height={460}
             width={460}
             items={legend}
           />
