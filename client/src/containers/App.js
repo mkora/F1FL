@@ -37,6 +37,7 @@ class App extends Component {
     circuits: [],
     times: [],
     checked: [],
+    prevChecked: [],
     isError: false,
     isLoading: true,
     isOpenDialog: false,
@@ -84,7 +85,15 @@ class App extends Component {
   };
 
   handleCloseClick = () => {
-    this.setState({ isOpenDialog: false });
+    const {
+      prevChecked,
+      circuits,
+    } = this.state;
+    this.setState({
+      checked: prevChecked,
+      isCheckedAll: prevChecked.length === circuits.length,
+      isOpenDialog: false,
+    });
   };
 
   handleSnackCloseClick = () => {  
@@ -92,6 +101,16 @@ class App extends Component {
   };
 
   handleSearchClick = (ids) => async () => {
+    if (!ids.length) {
+      this.setState({
+        times: [],
+        checked: [],
+        prevChecked: [],
+        isError: false,
+        isCheckedAll: false,
+        isOpenDialog: false,
+      });
+    }
     try {
       const timesData = await laps(ids);
       if(timesData.status) {
@@ -106,6 +125,7 @@ class App extends Component {
                 };
               })
             ),
+          prevChecked: this.state.checked,
           isOpenDialog: false,
           isLoading: false,
           isError: false,
@@ -167,6 +187,7 @@ class App extends Component {
       isOpenDialog,
       isOpenSnack,
       checked,
+      prevChecked,
       isCheckedAll,
     } = this.state;
 
@@ -195,12 +216,12 @@ class App extends Component {
         </AppBar>
 
         <Paper className={classes.paper}>
-          { times.length
+          { (times.length)
               ? <TimesGraph
                 data={times}
-                legend={checked
+                legend={prevChecked
                   ? circuits
-                    .filter(c => checked.indexOf(c.circuitId) !== -1)
+                    .filter(c => prevChecked.indexOf(c.circuitId) !== -1)
                     .map(c => {
                       return { title: c.name };
                     })
