@@ -1,6 +1,6 @@
 # F1FL
 
-Node.js, Express, MySQL
+Node.js, Express, MySQL, React
 
 ## Overview
 
@@ -18,7 +18,7 @@ Formula 1 Fastest Lap Visualization Tool
 
 - Loads environment variables from `.env` file
 
-- Uses `error-handler`
+- Uses [react-vis](https://github.com/uber/react-vis) and [material-ui](https://material-ui.com)
 
 ## Quick Start
 
