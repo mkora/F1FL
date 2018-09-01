@@ -30,8 +30,6 @@ const styles = theme => ({
 });
 
 class App extends Component {
-  /** DEBUG */
-  debug = false;
 
   state = {
     circuits: [],
@@ -69,14 +67,6 @@ class App extends Component {
         isOpenSnack: true,
       });
       console.log(err);
-    }
-
-    /** DEBUG */
-    if (this.debug === true) {
-      this.setState({
-        checked: [1, 2, 3,4, 5, 6, 7, 8, 9, 10]
-      });
-      await this.handleSearchClick(this.state.checked)();
     }
   }
 
