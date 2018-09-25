@@ -20,6 +20,10 @@ Formula 1 Fastest Lap Visualization Tool
 
 - Uses [react-vis](https://github.com/uber/react-vis) and [material-ui](https://material-ui.com)
 
+## Screenshots
+
+![Fastest Lap](https://user-images.githubusercontent.com/31717889/45991395-a04efc80-c039-11e8-96d8-4ad933d5131c.png)
+
 ## Quick Start
 
 1. Install dependencies
